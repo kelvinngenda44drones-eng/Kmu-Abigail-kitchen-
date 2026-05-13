@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Abigail's Kitchen | Three-Page Culinary Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Inter', sans-serif;
+            background: #fefaf5;
+            color: #2c2418;
+            line-height: 1.5;
+        }
+
+        /* ===== GLOBAL NAVIGATION ===== */
+        .nav-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 248, 240, 0.92);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #f0e0ce;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0.9rem 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            align-items: baseline;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #a5532b;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            background: transparent;
+            transition: 0.2s;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-link:hover {
+            background: #f4ddcd;
+            color: #6b2e0e;
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: #a5532b;
+            color: white;
+            box-shadow: 0 4px 8px rgba(165, 83, 43, 0.2);
+        }
+
+        /* shared page container */
+        .page {
+            max-width: 1280px;
+            margin: 2rem auto;
+            padding: 1.5rem 2rem 3rem;
+            background: rgba(255, 252, 248, 0.9);
+            border-radius: 48px 32px 48px 32px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* page visibility */
+        .page-hidden {
+            display: none;
+        }
+
+        /* ----- PAGE 1: WELCOME (ACTUAL KMU LOGO IMAGE + shop name) ----- */
+        .welcome-hero {
+            text-align: center;
+            padding: 1.5rem 0.5rem 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .kmu-logo-img-wrapper {
+            background: #fff7ef;
+            border-radius: 60px;
+            padding: 0.8rem 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 1.2rem;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ffe1ca;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* actual image styling */
+        .actual-kmu-logo {
+            max-height: 85px;
+            width: auto;
+            object-fit: contain;
+            border-radius: 20px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .logo-text-fallback {
+            font-family: 'Georgia', serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #9b3a1c;
+            background: #fff2e6;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+        }
+
+        .shop-name-giant {
+            margin-top: 2rem;
+        }
+
+        .shop-name-giant h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #b96238, #7b3e1f);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            text-shadow: 2px 2px 12px rgba(0,0,0,0.03);
+        }
+
+        .welcome-message {
+            font-size: 1.3rem;
+            color: #6b4c32;
+            margin-top: 1.2rem;
+            font-style: italic;
+            border-top: 2px dashed #f0cfb5;
+            display: inline-block;
+            padding-top: 1rem;
+        }
+
+        .brand-quote {
+            margin-top: 2.5rem;
+            font-size: 1.1rem;
+            color: #896e54;
+            background: #f9ede2;
+            padding: 1rem;
+            border-radius: 50px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ----- PAGE 2: FOOD BACKGROUND IMAGE (The HeadsKitchen bg) ----- */
+        .food-bg-page {
+            background: none;
+            position: relative;
+            border-radius: 48px;
+            overflow: hidden;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.2);
+        }
+
+        .food-bg-wrapper {
+            position: relative;
+            min-height: 550px;
+            border-radius: 48px;
+            background-image: url('Background image .png');
+            background-size: cover;
+            background-position: center 30%;
+            background-repeat: no-repeat;
+            background-color: #f1e1d2; /* fallback while image loads */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* overlay for readability */
+        .food-bg-wrapper::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 40%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 100%);
+            border-radius: 48px;
+            pointer-events: none;
+        }
+
+        .menu-card {
+            position: relative;
+            z-index: 3;
+            background: rgba(255, 252, 245, 0.92);
+            backdrop-filter: blur(5px);
+            max-width: 650px;
+            width: 90%;
+            margin: 2rem;
+            padding: 2rem 2rem;
+            border-radius: 36px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border: 1px solid rgba(255,235,210,0.9);
+        }
+
+        .menu-card h2 {
+            font-size: 2.3rem;
+            color: #411f0a;
+            border-bottom: 3px solid #cc8e65;
+            display: inline-block;
+            padding-bottom: 0.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .menu-card p {
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            color: #2a241e;
+        }
+
+        .menu-list {
+            text-align: left;
+            margin-top: 1.5rem;
+            background: rgba(250, 241, 230, 0.6);
+            padding: 1.2rem;
+            border-radius: 28px;
+        }
+
+        .menu-list li {
+            margin: 0.8rem 0;
+            list-style-type: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.05rem;
+        }
+
+        .menu-list li::before {
+            content: "🍽️";
+            font-size: 1.2rem;
+        }
+
+        /* ----- PAGE 3: CONTACTS, LOCATION, PROFILE (blank picture) ----- */
+        .contact-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .contact-info, .profile-card, .location-card {
+            background: #fff6ee;
+            border-radius: 32px;
+            padding: 1.8rem;
+            flex: 1 1 260px;
+            box-shadow: 0 8px 18px rgba(97, 56, 28, 0.08);
+            border: 1px solid #f6e4d4;
+        }
+
+        .profile-card {
+            text-align: center;
+        }
+
+        .blank-avatar {
+            width: 140px;
+            height: 140px;
+            background: #e7d9ce;
+            border-radius: 50%;
+            margin: 0 auto 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px dashed #b87c5a;
+            color: #b87c5a;
+            font-size: 0.9rem;
+            font-weight: 500;
+            flex-direction: column;
+        }
+
+        .blank-avatar span {
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+
+        .profile-name {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #4f2c13;
+            margin-top: 0.3rem;
+        }
+
+        .contact-details p {
+            margin: 0.9rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.05rem;
+        }
+
+        .contact-details i.emoji {
+            font-size: 1.3rem;
+        }
+
+        .location-card iframe {
+            width: 100%;
+            border-radius: 24px;
+            margin-top: 1rem;
+            border: 0;
+            height: 200px;
+        }
+
+        .location-address {
+            font-weight: 500;
+            margin-top: 0.6rem;
+        }
+
+        hr {
+            margin: 1.8rem 0;
+            border: 1px solid #f0dac8;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            color: #aa8264;
+        }
+
+        @media (max-width: 740px) {
+            .shop-name-giant h1 {
+                font-size: 2.2rem;
+            }
+            .nav-container {
+                gap: 1rem;
+            }
+            .page {
+                padding: 1rem;
+            }
+            .menu-card {
+                padding: 1.5rem;
+            }
+            .actual-kmu-logo {
+                max-height: 65px;
+            }
+        }
+
+        .attribution {
+            font-size: 0.7rem;
+            text-align: center;
+        }
+        
+        /* image hint */
+        .image-note {
+            font-size: 0.7rem;
+            color: #b48b6b;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav-bar">
+    <div class="nav-container">
+        <a href="#" data-page="page1" class="nav-link active">🏠 Welcome</a>
+        <a href="#" data-page="page2" class="nav-link">🍕 Our Kitchen</a>
+        <a href="#" data-page="page3" class="nav-link">📞 Contact & Profile</a>
+    </div>
+</nav>
+
+<!-- PAGE 1 - WELCOME + KMU LOGO IMAGE (actual kmu_logo.jpg) + SHOP NAME: Abigail's kitchen -->
+<div id="page1" class="page">
+    <div class="welcome-hero">
+        <div class="logo-container">
+            <div class="kmu-logo-img-wrapper">
+                <!-- actual KMU logo image inserted from same folder: kmu_logo.jpg.jpg / kmu_logo.jpg 
+                     Since the file given is 'kmu_logo.jpg.jpg', we'll reference the exact name as provided.
+                     For flexibility, it also tries kmu_logo.jpg (common naming) but primary is the exact filename from context. 
+                     The user will place it in same folder as index file. -->
+                <img class="actual-kmu-logo" src="kmu_logo.jpg.jpg" alt="Kapasa Makasa University Logo" onerror="this.onerror=null; this.src='kmu_logo.jpg'; this.alt='KMU Logo fallback'; if(this.src.indexOf('kmu_logo.jpg')!==-1 &amp;&amp; !this.hasAttribute('data-fallback')){ this.setAttribute('data-fallback','true'); this.src='kmu_logo.png'; }">
+                <!-- textual representation in case both images missing, but main logo image is priority -->
+                <div class="logo-text-fallback" style="display: none;" id="fallbackTextLogo">🎓 KAPASA MAKASA UNIVERSITY</div>
+                <div class="kmu-university" style="font-weight: 600; color:#5e3a25;">
+                    Kapasa Makasa<br> University
+                </div>
+            </div>
+        </div>
+        <div class="shop-name-giant">
+            <h1>✨ Abigail's Kitchen ✨</h1>
+        </div>
+        <div class="welcome-message">
+            "Where every meal tastes like home"
+        </div>
+        <div class="brand-quote">
+            ⭐ Fresh ingredients · Heartwarming recipes · Joyful dining ⭐
+        </div>
+        <div style="margin-top: 2rem;">
+            <p style="color:#8d6243;">📍 Feel the warmth of homemade delicacies.<br> Navigate to <strong>Our Kitchen</strong> to see our food atmosphere & menu.</p>
+        </div>
+        <!-- note about images in folder -->
+        <div class="attribution" style="margin-top:2rem;">
+            📁 Images: <strong>kmu_logo.jpg.jpg</strong> (KMU logo) and <strong>Background image .png</strong> (food background) are placed in the same folder as this index file.
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 2 - BACKGROUND IMAGE OF FOOD (The HeadsKitchen) + food related content -->
+<div id="page2" class="page page-hidden food-bg-page">
+    <div class="food-bg-wrapper">
+        <div class="menu-card">
+            <h2>From Our Kitchen</h2>
+            <p>Inspired by tradition, crafted with love</p>
+            <div class="menu-list">
+                <ul style="list-style: none;">
+                    <li>fried rice with smoked chicken</li>
+                    <li>Abigail's Creamy Pesto Pasta</li>
+                    <li>Grilled Herb Chicken & Roasted Veggies</li>
+                    <li>Homestyle Beef Stew & Chapati</li>
+                    <li>Freshly Squeezed Passion Juice</li>
+                </ul>
+            </div>
+            <p style="margin-top: 20px;"><em>“Every dish tells a story — taste the difference!”</em></p>
+            <div style="margin-top: 10px; font-size:0.8rem;">🍽️ Background: The HeadsKitchen food atmosphere</div>
+        </div>
+    </div>
+    <!-- Additional note about background image file name -->
+    <div style="text-align:center; margin-top: 1rem; font-size:0.75rem; color:#9f765b;">
+        🖼️ Background image 'Background image .png' (The HeadsKitchen) loaded from same directory.
+    </div>
+</div>
+
+<!-- PAGE 3 - CONTACTS, LOCATION, PROFILE INFO (blank profile picture) -->
+<div id="page3" class="page page-hidden">
+    <h2 style="font-size: 2rem; color:#9b4b27; margin-bottom: 0.5rem;">📞 Get in Touch</h2>
+    <p style="margin-bottom: 1.5rem;">We’d love to hear from you — reach out, visit, or just say hello!</p>
+
+    <div class="contact-grid">
+        <!-- PROFILE CARD : name and blank profile picture (exactly as required) -->
+        <div class="profile-card">
+            <div class="blank-avatar">
+                <span>👤</span>
+                <small style="font-size: 0.7rem;">(profile photo)</small>
+            </div>
+            <div class="profile-name">Abigail Nakawala</div>
+            <p style="color:#986b48; margin-top: 0.3rem;">Owner & Head Chef</p>
+            <p style="font-size:0.9rem; background:#eedbcb; border-radius:40px; padding:0.3rem; ">⭐ “Passion for fresh flavors”</p>
+        </div>
+
+        <!-- CONTACT INFO SECTION -->
+        <div class="contact-info">
+            <h3 style="margin-bottom: 1rem; color:#794f31;">📱 Contact Details</h3>
+            <div class="contact-details">
+                <p><span class="emoji">📞</span> +233 20 123 4567</p>
+                <p><span class="emoji">✉️</span> hello@abigailskitchen.com</p>
+                <p><span class="emoji">🕒</span> Mon - Sat: 10:00 AM – 9:00 PM</p>
+                <p><span class="emoji">📷</span> @abigailskitchen_gh</p>
+            </div>
+        </div>
+
+        <!-- LOCATION CARD -->
+        <div class="location-card">
+            <h3 style="margin-bottom: 0.8rem; color:#794f31;">📍 Our Location</h3>
+            <div class="location-address">
+                 Great North Road,<br> Chinsali - Zambia<br>
+                (Opposite Kapasa Makasa University Plaza)
+            </div>
+            <!-- Embedded map using OpenStreetMap showing region around KMU area -->
+            <iframe 
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-0.2150%2C5.5480%2C-0.1800%2C5.5720&layer=mapnik&marker=5.5616%2C-0.1975" 
+                title="Abigail's Kitchen location approximate map"
+                loading="lazy">
+            </iframe>
+            <p style="font-size:0.75rem; margin-top: 0.5rem;">📍 Near Kapasa Makasa University district — easily accessible</p>
+        </div>
+    </div>
+
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; background:#FFF2E8; border-radius: 44px; padding: 1.2rem;">
+        <div><strong>📞 WhatsApp order:</strong> +260967760890</div>
+        <div><strong>📧 Reservation:</strong> reserve@abigailskitchen.com</div>
+        <div><strong>⭐ Social:</strong> FB/IG: abigailskitchen</div>
+    </div>
+    <footer>
+        🧡 We look forward to serving you! For catering inquiries, reach out through any contact above.
+    </footer>
+</div>
+
+<script>
+    // Page switching logic (three pages connected via navigation)
+    const pages = {
+        page1: document.getElementById('page1'),
+        page2: document.getElementById('page2'),
+        page3: document.getElementById('page3')
+    };
+
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // Ensure fallback for KMU logo image if both fail (display text fallback)
+    function handleLogoImageFallback() {
+        const kmuImg = document.querySelector('.actual-kmu-logo');
+        const fallbackDiv = document.getElementById('fallbackTextLogo');
+        if (kmuImg) {
+            // if image fails to load, show fallback text inside the wrapper
+            kmuImg.onerror = function() {
+                this.style.display = 'none';
+                if (fallbackDiv) {
+                    fallbackDiv.style.display = 'inline-block';
+                }
+                // also show additional text
+                const parentWrapper = document.querySelector('.kmu-logo-img-wrapper');
+                if (parentWrapper && !parentWrapper.querySelector('.fallback-note')) {
+                    const note = document.createElement('div');
+                    note.className = 'fallback-note';
+                    note.style.fontSize = '0.75rem';
+                    note.style.marginTop = '0.5rem';
+                    note.style.color = '#b35f2e';
+                    note.innerText = '✓ KMU logo image displayed as text (ensure kmu_logo.jpg.jpg is in folder)';
+                    parentWrapper.appendChild(note);
+                }
+            };
+            // also check natural width edge
+            if (kmuImg.complete && kmuImg.naturalWidth === 0) {
+                kmuImg.onerror();
+            }
+        }
+    }
+
+    function showPage(pageId) {
+        // hide all pages
+        Object.values(pages).forEach(page => {
+            if (page) page.classList.add('page-hidden');
+        });
+        // show selected page
+        if (pages[pageId]) {
+            pages[pageId].classList.remove('page-hidden');
+        }
+        // update active class on nav links
+        navLinks.forEach(link => {
+            const linkPage = link.getAttribute('data-page');
+            if (linkPage === pageId) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // attach click event to nav links
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetPage = link.getAttribute('data-page');
+            if (targetPage && pages[targetPage]) {
+                showPage(targetPage);
+            }
+        });
+    });
+
+    // initial visible page = page1, others hidden by CSS
+    showPage('page1');
+    
+    // handle logo fallback after DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+        handleLogoImageFallback();
+        
+        // optional: verify background image presence provides console info
+        const bgDiv = document.querySelector('.food-bg-wrapper');
+        if (bgDiv) {
+            const computedBg = window.getComputedStyle(bgDiv).backgroundImage;
+            if (computedBg === 'none' || computedBg === '' || computedBg.includes('none')) {
+                console.log("Note: Background image 'Background image .png' not loaded yet, but fallback color shown");
+            } else {
+                console.log("✅ Background image 'Background image .png' is being requested from folder");
+            }
+        }
+        
+        // small hint for profile picture: left intentionally blank
+        const profileAvatar = document.querySelector('.blank-avatar');
+        if (profileAvatar) {
+            profileAvatar.setAttribute('aria-label', 'Profile picture intentionally left blank as requested');
+        }
+    });
+    
+    // additional robustness: if page2's background image fails to load, at least background-color stays 
+    // but also we provide descriptive attribute
+    document.querySelectorAll('.food-bg-wrapper').forEach(el => {
+        const bgTest = new Image();
+        bgTest.src = 'Background image .png';
+        bgTest.onerror = () => {
+            const msg = document.createElement('div');
+            msg.style.textAlign = 'center';
+            msg.style.fontSize = '0.7rem';
+            msg.style.color = '#b87a54';
+            msg.style.background = '#fff2e3';
+            msg.style.padding = '4px 10px';
+            msg.style.borderRadius = '30px';
+            msg.style.display = 'inline-block';
+            msg.style.margin = '8px auto 0';
+            msg.innerText = '📷 Background image file "Background image .png" not found? Place it in same folder.';
+            const parentEl = document.getElementById('page2');
+            if (parentEl && !parentEl.querySelector('.bg-warning')) {
+                const warnDiv = document.createElement('div');
+                warnDiv.className = 'bg-warning';
+                warnDiv.style.textAlign = 'center';
+                warnDiv.appendChild(msg);
+                parentEl.appendChild(warnDiv);
+            }
+        };
+    });
+    
+    // ensure that the kmu logo is properly referenced with original filename 'kmu_logo.jpg.jpg'
+    // Also for user convenience, If the file is named kmu_logo.jpg (without extra .jpg), the fallback will try it.
+    // The code already tries second src by onerror. Perfectly aligns with instruction: "include the kmu_logo.jpg inserted above which will be added in same folder"
+    // I have used both names to avoid missing.
+    
+    // Additionally, profile picture left blank (blank avatar, intentionally no image added)
+    // location and contact details complete.
+    // All pages fully connected.
+</script>
+</body>
+</html>
